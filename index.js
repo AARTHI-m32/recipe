@@ -27,23 +27,39 @@ connectToDb()
        
 app.post('/add-recipe', async function (request, response) {
     try {
-        const newUser = await Recipe.create({
-            // topic: request.body.topic,
+        const newRecipe = await Recipe.create({
             title: request.body.title,
-            ingredients: request.body.ingredients,
+            cuisine:request.body.cuisine,
+            ingredients: request.body. ingredients,
             instructions: request.body.instructions,
             imageUrl: request.body.imageUrl
+            
         })
         response.status(201).json({
             status: 'success',
-            message: 'Dish created successfully',
-            
+            message: 'Recipe created successfully',
+            user: newRecipe
         })
     } catch (error) {
-        console.error('Error creating dISH:', error)
+        console.error('Error creating user:', error)
         response.status(500).json({
             status: 'failure',
-            message: 'Failed to create Dish',
+            message: 'Failed to create user',
+            error: error.message
+        })
+    }
+})
+
+app.get('/req-recipe', async function (request, response) {
+    try {
+        const { cuisine } = request.query
+        const recipes = await Recipe.find({ cuisine })
+        response.status(200).json(recipes)
+    } catch (error) {
+        console.error('Error fetching questions:', error)
+        response.status(500).json({
+            status: 'failure',
+            message: 'Failed to fetch questions',
             error: error.message
         })
     }
