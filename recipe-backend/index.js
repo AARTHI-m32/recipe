@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 const express = require('express')
 const Recipe = require('./Schema.js')
 const bodyParser = require('body-parser')
-
+const cors=require('cors')
 
 const app = express()
 app.use(bodyParser.json())
-
+app.use(cors())
 
 
 async function connectToDb() {
